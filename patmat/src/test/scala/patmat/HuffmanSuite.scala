@@ -7,6 +7,8 @@ import org.scalatest.junit.JUnitRunner
 
 import patmat.Huffman._
 
+
+
 @RunWith(classOf[JUnitRunner])
 class HuffmanSuite extends FunSuite {
   trait TestTrees {
@@ -43,5 +45,6 @@ class HuffmanSuite extends FunSuite {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
+    
   }
 }

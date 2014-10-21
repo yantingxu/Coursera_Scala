@@ -170,7 +170,7 @@ object Huffman {
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
     def decodeChar(state: CodeTree, left_bits: List[Bit]): List[Char] = {
       state match {
-        case Leaf(c, w) => c::decodeChar(tree, left_bits)
+        case Leaf(c, w) => if (!left_bits.isEmpty) c::decodeChar(tree, left_bits) else List(c)
         case Fork(left, right, chars, weight) => if (left_bits.head == 0) decodeChar(left, left_bits.tail) else decodeChar(right, left_bits.tail)
       }
     }
@@ -251,7 +251,7 @@ object Huffman {
     def convert_acc(bits: List[Bit], state: CodeTree): List[(Char, List[Bit])] = {
       state match {
         case Leaf(c, w) => List((c, bits))
-        case Fork(l, r, c, w) => mergeCodeTables(convert_acc(0::bits, l), convert_acc(1::bits, r))
+        case Fork(l, r, c, w) => mergeCodeTables(convert_acc(bits:::List(0), l), convert_acc(bits:::List(1), r))
       }
     }
     convert_acc(List(), tree)
@@ -277,3 +277,4 @@ object Huffman {
     }
   }
 }
+
